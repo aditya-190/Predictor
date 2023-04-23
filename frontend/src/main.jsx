@@ -1,10 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import Home from "./pages/home.jsx";
-import Predict from "./pages/predict.jsx";
-import NotFound from "./pages/404.jsx";
+import Home from "./pages/home";
+import Predict from "./pages/predict";
+import NotFound from "./pages/404";
 import './styles/global.css'
+import {ChakraProvider} from "@chakra-ui/react";
+import chakraTheme from '../chakraTheme'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -19,9 +21,11 @@ const App = () => {
     )
 }
 const renderApp = () => root.render(
-    <BrowserRouter>
-        <App/>
-    </BrowserRouter>
+    <ChakraProvider theme={chakraTheme}>
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
+    </ChakraProvider>
 )
 
 renderApp()

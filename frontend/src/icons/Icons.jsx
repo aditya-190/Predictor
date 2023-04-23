@@ -93,4 +93,27 @@ const GoHome = props => (
     </Icon>
 )
 
-export {GoHome, Text404}
+const Logo = props => (
+    <Icon viewBox="0 0 300 300" fill={'none'} {...props}>
+        <circle cx="150" cy="150" r="135" stroke="#253238" strokeWidth="30" fill="#253238"/>
+        <circle cx="90" cy="90" r="30" fill="#fff"/>
+        <circle cx="90" cy="150" r="30" fill="#fff"/>
+        <circle cx="90" cy="210" r="30" fill="#fff"/>
+        <circle cx="150" cy="210" r="30" fill="#fff"/>
+        <circle cx="210" cy="210" r="30" fill="#fff"/>
+    </Icon>
+)
+
+const Background = props => (
+    <Icon viewBox={'0 0 404 392'} fill={'none'} w={'536px'} h={'544px'} {...props}>
+        <defs>
+            <pattern id="837c3e70-6c3a-44e6-8854-cc48c737b659" x="0" y="0" width="20" height="20"
+                     patternUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="4" height="4" fill="currentColor"></rect>
+            </pattern>
+        </defs>
+        <rect width="404" height="392" fill="url(#837c3e70-6c3a-44e6-8854-cc48c737b659)"></rect>
+    </Icon>
+)
+
+export {Background, GoHome, Logo, Text404}
