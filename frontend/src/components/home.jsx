@@ -1,9 +1,16 @@
 import {Avatar, Button, Flex, Image, Text} from "@chakra-ui/react";
 import {Background, Logo} from "../icons/Icons.jsx";
 
-const LogoWithText = ({logoText}) => {
+const LogoWithText = ({logoText, handleClick}) => {
     return (
-        <Flex ml={'48px'} mt={'124px'} flexDirection={'row'} alignItems={'center'}>
+        <Flex
+            ml={'48px'}
+            mt={'124px'}
+            flexDirection={'row'}
+            alignItems={'center'}
+            cursor={'pointer'}
+            onClick={handleClick}
+        >
             <Logo fontSize={'6xl'}/>
             <Text
                 ml={2}

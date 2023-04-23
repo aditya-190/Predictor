@@ -7,7 +7,10 @@ const Home = () => {
     const navigate = useNavigate()
     return (
         <Flex flexDirection={'column'}>
-            <LogoWithText logoText={data.logoText}/>
+            <LogoWithText
+                logoText={data.logoText}
+                handleClick={() => navigate('/')}
+            />
             <HeroImage image={data.heroImage}/>
             <HeroText
                 buttonText={data.heroText.buttonText}

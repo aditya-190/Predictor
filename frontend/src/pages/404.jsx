@@ -14,7 +14,7 @@ const NotFound = () => {
             justifyContent={'start'}
             alignItems={'center'}
         >
-            <Text404 w={'70vw'} h={'70vh'} />
+            <Text404 w={'70vw'} h={'70vh'}/>
             <GoHome
                 w={'8vw'}
                 h={'8vh'}
