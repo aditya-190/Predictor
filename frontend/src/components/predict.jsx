@@ -3,7 +3,7 @@ import {AddImage, Background, Close} from "../icons/Icons.jsx";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 
-const PredictBackground = () => {
+const PredictBackground = ({image}) => {
     return (
         <>
             <Flex
@@ -23,6 +23,14 @@ const PredictBackground = () => {
                 top={'100px'}
                 right={'17%'}
                 opacity={'0.1'}
+            />
+            <Image
+                w={'50%'}
+                h={'70%'}
+                src={image}
+                position={'absolute'}
+                bottom={0}
+                left={0}
             />
         </>
     )
