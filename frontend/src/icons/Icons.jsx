@@ -105,7 +105,7 @@ const Logo = props => (
 )
 
 const Background = props => (
-    <Icon viewBox={'0 0 404 392'} fill={'none'} w={'536px'} h={'544px'} {...props}>
+    <Icon viewBox={'0 0 404 392'} fill={'none'} {...props}>
         <defs>
             <pattern id="837c3e70-6c3a-44e6-8854-cc48c737b659" x="0" y="0" width="20" height="20"
                      patternUnits="userSpaceOnUse">
