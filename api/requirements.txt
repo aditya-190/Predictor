@@ -4,4 +4,4 @@ uvicorn
 python-multipart
 pillow
 matplotlib
-numpy==1.24.3
+numpy==1.21.6
