@@ -116,4 +116,13 @@ const Background = props => (
     </Icon>
 )
 
-export {Background, GoHome, Logo, Text404}
+const AddImage = props => (
+    <Icon viewBox="0 96 960 960" fill={'none'} {...props}>
+        <path
+            d="M180 936q-24.75 0-42.375-17.625T120 876V276q0-24.75 17.625-42.375T180 216h409v60H180v600h600V468h60v408q0 24.75-17.625 42.375T780 936H180Zm520-498v-81h-81v-60h81v-81h60v81h81v60h-81v81h-60ZM240 774h480L576 582 449 749l-94-124-115 149Zm-60-498v600-600Z"
+            fill={'currentColor'}
+        />
+    </Icon>
+)
+
+export {AddImage, Background, GoHome, Logo, Text404}
