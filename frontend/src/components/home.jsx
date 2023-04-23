@@ -90,7 +90,11 @@ const HeroText = () => {
                 fontSize={'lg'}
                 colorScheme={'orange'}
                 bg={'orange.400'}
-                _hover={{bg: 'orange.500'}}
+                _hover={{
+                    bg: 'orange.500',
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'lg',
+                }}
                 onClick={() => navigate('/predict')}
             >
                 Predict Now
