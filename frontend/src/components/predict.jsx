@@ -1,5 +1,5 @@
 import {CircularProgress, Flex, Heading, Image, Text} from "@chakra-ui/react";
-import {AddImage, Background} from "../icons/Icons.jsx";
+import {AddImage, Background, Close} from "../icons/Icons.jsx";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 
@@ -41,7 +41,7 @@ const SingleText = ({my, heading, values}) => {
     )
 }
 
-const ImagePreview = ({file}) => {
+const ImagePreview = ({file, setFile}) => {
     const [prediction, setPrediction] = useState(null)
 
     useEffect(() => {
@@ -88,6 +88,20 @@ const ImagePreview = ({file}) => {
                 objectFit={'cover'}
                 src={URL.createObjectURL(file)}
             />
+            <Close
+                position={'absolute'}
+                right={0}
+                top={0}
+                mt={4}
+                mr={4}
+                w={'36px'}
+                h={'36px'}
+                color={'gray.800'}
+                onClick={() => {
+                    setFile(null)
+                    setPrediction(null)
+                }}
+            />
             {prediction ? (
                 <>
                     <Heading mt={4}>Prediction</Heading>
@@ -128,7 +142,7 @@ const DragDropArea = () => {
     }
 
     return file ? (
-        <ImagePreview file={file}/>
+        <ImagePreview file={file} setFile={setFile}/>
     ) : (
         <Flex
             as={'label'}
