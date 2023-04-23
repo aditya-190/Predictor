@@ -87,6 +87,18 @@ const ImagePreview = ({file, setFile}) => {
             flexDirection={'column'}
             justifyContent={'center'}
             alignItems={'center'}
+            _after={{
+                content: '""',
+                w: '55%',
+                h: '60%',
+                pos: 'absolute',
+                top: '-5%',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                backgroundImage: `url(${URL.createObjectURL(file)})`,
+                filter: 'blur(20px)',
+                zIndex: -1,
+            }}
             zIndex={1}>
             <Image
                 mt={-12}
@@ -112,7 +124,7 @@ const ImagePreview = ({file, setFile}) => {
             />
             {prediction ? (
                 <>
-                    <Heading mt={4}>Prediction</Heading>
+                    <Heading mt={4} fontWeight={'900'}>Prediction</Heading>
                     <SingleText
                         my={16}
                         heading={'Label:'}
