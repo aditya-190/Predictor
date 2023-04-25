@@ -7,6 +7,8 @@ import NotFound from "./pages/404";
 import './styles/global.css'
 import {ChakraProvider} from "@chakra-ui/react";
 import chakraTheme from '../chakraTheme'
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
@@ -24,6 +26,7 @@ const renderApp = () => root.render(
     <ChakraProvider theme={chakraTheme}>
         <BrowserRouter>
             <App/>
+            <ToastContainer />
         </BrowserRouter>
     </ChakraProvider>
 )

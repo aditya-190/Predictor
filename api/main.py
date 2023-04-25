@@ -9,10 +9,10 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-# Allow CORS for localhost and localhost:3000
+# Allow CORS for all origins.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost", "http://localhost:3000", "https://leaf-predictor.pages.dev"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

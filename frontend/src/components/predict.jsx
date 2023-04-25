@@ -1,7 +1,8 @@
-import {CircularProgress, Flex, Heading, Image, Text} from "@chakra-ui/react";
+import {Button, CircularProgress, Flex, Heading, Image, Input, Text} from "@chakra-ui/react";
 import {AddImage, Background, Close} from "../icons/Icons.jsx";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 const PredictBackground = ({image}) => {
     return (
@@ -49,7 +50,7 @@ const SingleText = ({my, heading, values}) => {
     )
 }
 
-const ImagePreview = ({file, setFile}) => {
+const ImagePreview = ({file, preview, handleOnClose}) => {
     const [prediction, setPrediction] = useState(null)
 
     useEffect(() => {
@@ -68,7 +69,19 @@ const ImagePreview = ({file, setFile}) => {
                 setPrediction(response.data);
             }
         } catch (e) {
-            console.error(e);
+            console.error(e)
+            handleOnClose()
+            toast.error('Invalid Image Found.', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                zIndex: 1,
+            })
         }
     }
 
@@ -95,7 +108,7 @@ const ImagePreview = ({file, setFile}) => {
                 top: '-5%',
                 left: '50%',
                 transform: 'translateX(-50%)',
-                backgroundImage: `url(${URL.createObjectURL(file)})`,
+                backgroundImage: `url(${preview})`,
                 filter: 'blur(20px)',
                 zIndex: -1,
             }}
@@ -106,7 +119,7 @@ const ImagePreview = ({file, setFile}) => {
                 height={350}
                 width={350}
                 objectFit={'cover'}
-                src={URL.createObjectURL(file)}
+                src={preview}
             />
             <Close
                 position={'absolute'}
@@ -117,10 +130,7 @@ const ImagePreview = ({file, setFile}) => {
                 w={'36px'}
                 h={'36px'}
                 color={'gray.800'}
-                onClick={() => {
-                    setFile(null)
-                    setPrediction(null)
-                }}
+                onClick={handleOnClose}
             />
             {prediction ? (
                 <>
@@ -145,12 +155,15 @@ const ImagePreview = ({file, setFile}) => {
 
 const DragDropArea = () => {
     const [file, setFile] = useState(null)
+    const [preview, setPreview] = useState(null)
     const [hover, setHover] = useState(false)
+    const [url, setUrl] = useState('')
 
     const handleDrop = (e) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0]
         setFile(file)
+        setPreview(URL.createObjectURL(file))
     }
 
     const handleDragOver = (e) => {
@@ -158,69 +171,199 @@ const DragDropArea = () => {
     }
 
     const handleFileInputChange = (e) => {
-        setFile(e.target.files[0])
+        const file = e.target.files[0]
+        setFile(file)
+        setPreview(URL.createObjectURL(file))
+    }
+
+    const handleUrlInputChange = async () => {
+        try {
+            let tempUrl = url
+
+            // Return if url is not set.
+            if (!url) {
+                handleOnClose()
+                return
+            }
+
+            // Check if the url given is a base64 encoded image.
+            if (tempUrl.startsWith('data:image/')) {
+                const type = tempUrl.substring(tempUrl.indexOf('/') + 1, tempUrl.indexOf(';'))
+                const b64Data = tempUrl.substring(tempUrl.indexOf(',') + 1)
+                tempUrl = `data:image/${type};base64,${b64Data}`
+            }
+
+            // Return if url is not an image.
+            const response = await fetch(tempUrl)
+            const blob = await response.blob()
+            if (!blob.type.startsWith('image/')) {
+                handleOnClose()
+                return
+            }
+
+            // Set file and preview.
+            const file = new File([blob], 'image.jpg', {type: blob.type})
+            setFile(file)
+            setPreview(URL.createObjectURL(file))
+        } catch (e) {
+            console.error(e)
+            handleOnClose()
+            toast.error('Invalid Image Found.', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                zIndex: 1,
+            })
+        }
+    }
+
+    const handleOnClose = () => {
+        setFile(null)
+        setUrl('')
+        setPreview(null)
     }
 
     return file ? (
-        <ImagePreview file={file} setFile={setFile}/>
+        <ImagePreview file={file} preview={preview} handleOnClose={handleOnClose}/>
     ) : (
         <Flex
-            as={'label'}
-            position={'absolute'}
-            top={'50%'}
-            left={'50%'}
-            transform={'translate(-50%, -50%)'}
+            p={6}
             w={'40%'}
             h={'80%'}
-            bg={hover ? 'blue.50' : 'white'}
+            top={'50%'}
+            left={'50%'}
+            bg={'white'}
             boxShadow={'2xl'}
-            border={file ? '4px solid' : '4px dashed'}
-            borderColor={hover ? 'blue.200' : 'gray.600'}
             borderRadius={'lg'}
-            textAlign={'center'}
-            htmlFor={'fileInput'}
+            position={'absolute'}
+            transform={'translate(-50%, -50%)'}
             flexDirection={'column'}
             alignItems={'center'}
-            justifyContent={'center'}
-            cursor={'pointer'}
             zIndex={1}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
         >
-            <AddImage color={hover ? 'blue.400' : 'gray.400'} fontSize={'96px'}/>
-            <Text
-                m={4}
-                fontSize={'3xl'}
-                fontStyle={'normal'}
-                lineHeight={1}
-                fontWeight={'900'}
-                letterSpacing={1}
-                color={hover ? 'blue.400' : 'gray.600'}
+            <Flex
+                w={'100%'}
+                flex={1}
+                as={'label'}
+                borderRadius={'lg'}
+                cursor={'pointer'}
+                textAlign={'center'}
+                htmlFor={'fileInput'}
+                flexDirection={'column'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                bg={hover ? 'blue.50' : 'white'}
+                border={file ? '4px solid' : '4px dashed'}
+                borderColor={hover ? 'blue.200' : 'gray.600'}
+                onDrop={handleDrop}
+                onDragOver={handleDragOver}
+                onMouseEnter={() => setHover(true)}
+                onMouseLeave={() => setHover(false)}
             >
-                Select an Image file to upload
-            </Text>
-            <Text
-                mt={8}
-                fontSize={'xl'}
-                fontStyle={'normal'}
-                lineHeight={1}
-                fontWeight={'500'}
-                letterSpacing={1}
-                color={'gray.400'}
+                <AddImage color={hover ? 'blue.400' : 'gray.400'} fontSize={'96px'}/>
+                <Text
+                    m={4}
+                    fontSize={'3xl'}
+                    fontStyle={'normal'}
+                    lineHeight={1}
+                    fontWeight={'900'}
+                    letterSpacing={1}
+                    color={hover ? 'blue.400' : 'gray.600'}
+                >
+                    Select an Image file to upload
+                </Text>
+                <Text
+                    mt={8}
+                    fontSize={'xl'}
+                    fontStyle={'normal'}
+                    lineHeight={1}
+                    fontWeight={'500'}
+                    letterSpacing={1}
+                    color={'gray.400'}
+                >
+                    or drag and drop it here
+                </Text>
+                <input
+                    id="fileInput"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileInputChange}
+                    style={{display: "none"}}
+                />
+            </Flex>
+            <Flex
+                mt={10}
+                w={'full'}
+                flexDirection={'row'}
+                alignItems={'center'}
+                justifyContent={'start'}
             >
-                or drag and drop it here
-            </Text>
-            <input
-                id="fileInput"
-                type="file"
-                accept="image/*"
-                onChange={handleFileInputChange}
-                style={{display: "none"}}
-            />
+                <Text
+                    fontSize={'lg'}
+                    fontStyle={'normal'}
+                    lineHeight={1}
+                    fontWeight={'700'}
+                    color={'#616367'}
+                >
+                    or upload from a URL
+                </Text>
+                <Text
+                    ml={2}
+                    fontSize={'lg'}
+                    fontStyle={'normal'}
+                    lineHeight={1}
+                    fontWeight={'300'}
+                    color={'#616367'}
+                >
+                    (Ongoing feature)
+                </Text>
+            </Flex>
+            <Flex
+                mt={5}
+                p={1}
+                w={'full'}
+                h={'12'}
+                bg={'#F9F9F9'}
+                borderWidth={'1px'}
+                borderColor={'#EBEBEB'}
+                rounded={'lg'}
+                alignItems={'center'}
+                justifyContent={'center'}
+                flexDirection={'row'}
+            >
+                <Input
+                    px={4}
+                    variant={'unstyled'}
+                    placeholder='Add the file URL'
+                    size='md'
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                />
+                <Button
+                    p={1}
+                    px={5}
+                    minW={'unset'}
+                    color={'black'}
+                    bg={'white'}
+                    textAlign={'center'}
+                    borderWidth={'1px'}
+                    borderColor={'#EBEBEB'}
+                    variant={'unstyled'}
+                    _hover={{
+                        bg: '#F9F9F9',
+                    }}
+                    onClick={handleUrlInputChange}
+                >
+                    Upload
+                </Button>
+            </Flex>
         </Flex>
-    );
+    )
 }
 
 export {
