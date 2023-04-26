@@ -3,6 +3,7 @@ import {AddImage, Background, Close} from "../icons/Icons.jsx";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
+import {loadImageFromBase64, loadImageFromUrl} from "./_services.js";
 
 const PredictBackground = ({image}) => {
     return (
@@ -185,26 +186,10 @@ const DragDropArea = () => {
                 handleOnClose()
                 return
             }
+            tempUrl = tempUrl.startsWith('data:image/') ? await loadImageFromBase64(tempUrl) : await loadImageFromUrl(tempUrl)
+            setFile(tempUrl)
+            setPreview(URL.createObjectURL(tempUrl))
 
-            // Check if the url given is a base64 encoded image.
-            if (tempUrl.startsWith('data:image/')) {
-                const type = tempUrl.substring(tempUrl.indexOf('/') + 1, tempUrl.indexOf(';'))
-                const b64Data = tempUrl.substring(tempUrl.indexOf(',') + 1)
-                tempUrl = `data:image/${type};base64,${b64Data}`
-            }
-
-            // Return if url is not an image.
-            const response = await fetch(tempUrl)
-            const blob = await response.blob()
-            if (!blob.type.startsWith('image/')) {
-                handleOnClose()
-                return
-            }
-
-            // Set file and preview.
-            const file = new File([blob], 'image.jpg', {type: blob.type})
-            setFile(file)
-            setPreview(URL.createObjectURL(file))
         } catch (e) {
             console.error(e)
             handleOnClose()
