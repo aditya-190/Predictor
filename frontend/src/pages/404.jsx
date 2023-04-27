@@ -18,8 +18,7 @@ const NotFound = () => {
             <GoHome
                 w={'8vw'}
                 h={'8vh'}
-                ml={20}
-                bottom={20}
+                bottom={10}
                 position={'absolute'}
                 cursor={'pointer'}
                 onClick={() => navigate('/')}
