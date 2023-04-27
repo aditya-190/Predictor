@@ -29,7 +29,10 @@ MODEL = tf.keras.models.load_model("../models")
 @app.post("/get_prediction")
 async def get_prediction(file: UploadFile = File(...)):
     bytes = await file.read()
-    image = np.array(Image.open(BytesIO(bytes)))
+    image = Image.open(BytesIO(bytes))
+    image = image.convert('RGB')
+    image = image.resize((256, 256))
+    image = np.array(image)
     image_batch = np.expand_dims(image, 0)
     prediction = MODEL.predict(image_batch)
     predicted_class = CLASS_NAMES[np.argmax(prediction[0])]

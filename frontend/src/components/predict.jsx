@@ -281,33 +281,17 @@ const DragDropArea = () => {
                     style={{display: "none"}}
                 />
             </Flex>
-            <Flex
+            <Text
                 mt={10}
                 w={'full'}
-                flexDirection={'row'}
-                alignItems={'center'}
-                justifyContent={'start'}
+                fontSize={'lg'}
+                fontStyle={'normal'}
+                lineHeight={1}
+                fontWeight={'700'}
+                color={'#616367'}
             >
-                <Text
-                    fontSize={'lg'}
-                    fontStyle={'normal'}
-                    lineHeight={1}
-                    fontWeight={'700'}
-                    color={'#616367'}
-                >
-                    or upload from a URL
-                </Text>
-                <Text
-                    ml={2}
-                    fontSize={'lg'}
-                    fontStyle={'normal'}
-                    lineHeight={1}
-                    fontWeight={'300'}
-                    color={'#616367'}
-                >
-                    (Ongoing feature)
-                </Text>
-            </Flex>
+                or upload from a URL
+            </Text>
             <Flex
                 mt={5}
                 p={1}
