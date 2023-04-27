@@ -6,6 +6,7 @@ import uvicorn
 from PIL import Image
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 
 app = FastAPI()
 
@@ -41,6 +42,35 @@ async def get_prediction(file: UploadFile = File(...)):
         'class_name': predicted_class,
         'confidence': round(float(confidence * 100), 2)
     }
+
+
+# Creating route to test if the service is running or not.
+@app.get("/", response_class=HTMLResponse)
+async def home():
+    return """
+    <html>
+    <head>
+        <title>Leaf Prediction Service</title>
+        <style>
+            h1 {
+                text-align: center;
+                font-size: 48px;
+            }
+            div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <h1>✨ The leaf prediction service is up and running! ✨</h1>
+        </div>
+    </body>
+    </html>
+    """
 
 
 if __name__ == "__main__":
