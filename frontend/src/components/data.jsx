@@ -7,8 +7,8 @@ const data = {
         buttonText: 'Predict Now',
     },
     testimonial: {
-        image: 'https://user-images.githubusercontent.com/66888130/159643702-50363139-2c12-44c5-a374-b41387089315.jpeg',
-        user: 'Deepanshu Tyagi',
+        image: 'https://d2r55xnwy6nx47.cloudfront.net/uploads/2019/07/Nicolas-Curien_1500.jpg',
+        user: 'Prem Dutt Sharma',
         feedback: '“I have been using Leaf Prediction for the past weeks \n and it has revolutionized the way I manage my farm. \n Very reliable tool.”'
     },
     features: [
@@ -32,8 +32,8 @@ const data = {
         },
     ],
     finalTestimonial: {
-        image: 'https://scontent-del1-2.xx.fbcdn.net/v/t39.30808-6/278819800_2765725420396297_2472106253445655107_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=QThDNl53XKAAX_Krm9p&_nc_ht=scontent-del1-2.xx&oh=00_AfC6mQGorx7_rVHE8JbI-ZPgHi82ZUvMMVte31SMJZkAvA&oe=64691251',
-        user: 'Yash Singhwal & Paras Rajpal',
+        image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+        user: 'Kamlesh Devi',
         feedback: '"I highly recommend Leaf Prediction to fellow farmers. It\'s quick, accurate and user-friendly."'
     }
 }
